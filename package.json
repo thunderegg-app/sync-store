@@ -1,0 +1,12 @@
+{
+  "name": "thunderegg-sync-store",
+  "private": true,
+  "type": "module",
+  "description": "Thunderegg Sync relay (Cloudflare Worker). package.json exists only to run tests; deploy needs just worker.js.",
+  "scripts": {
+    "test": "node --test \"test/*.test.js\""
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
