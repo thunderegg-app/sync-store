@@ -36,6 +36,10 @@ async function authUser(req, env) {
   if (!m) return null;
   const rec = await env.AUTH.get("tok:" + m[1], "json");
   if (!rec) return null;
+  // The uid becomes the storage prefix `u/<uid>/`, so it must be exactly one safe path segment.
+  // A missing uid would share "u/undefined/" across tokens, and a uid containing "/" (e.g. "a/b")
+  // would sit inside another user's prefix ("u/a/") and be readable by them. Fail closed.
+  if (typeof rec.uid !== "string" || !/^[A-Za-z0-9_-][A-Za-z0-9._-]*$/.test(rec.uid)) return null;
   return { uid: rec.uid, capBytes: rec.capBytes ?? 10 * 1024 * 1024 * 1024 }; // default 10 GiB
 }
 
